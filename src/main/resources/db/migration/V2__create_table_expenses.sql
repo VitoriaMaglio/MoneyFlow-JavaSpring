@@ -1,0 +1,11 @@
+CREATE TABLE EXPENSES (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    amount NUMERIC(10,2) NOT NULL,
+    category VARCHAR(50),
+    user_id BIGINT NOT NULL,
+
+    CONSTRAINT fk_user FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+);
