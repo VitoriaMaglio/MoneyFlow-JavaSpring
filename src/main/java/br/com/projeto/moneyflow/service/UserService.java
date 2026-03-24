@@ -2,7 +2,9 @@ package br.com.projeto.moneyflow.service;
 
 import br.com.projeto.moneyflow.entity.User;
 import br.com.projeto.moneyflow.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -31,17 +33,27 @@ public class UserService {
     public Optional<User> delete(Long id){
         Optional<User> user = findById(id);
         userRepository.delete(user);
+
         return user;
     }
 
     //service update
     public User update(Long id, User newUser){
-        Optional<User> user = findById(id);
-        user.get().setName(newUser.getName());
-        user.get().setCpf(newUser.getCpf());
+//        var optionalUser = findById(id);
+//        if(optionalUser.isEmpty()){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+//        }
+//        newUser.setId(id);
+//        return userRepository.save(newUser);
 
-        return userRepository.save(newUser);
+        User user = findById(id).orElseThrow();
+
+        user.setName(newUser.getName());
+        user.setCpf(newUser.getCpf());
+        return userRepository.save(user);
 
     }
+
+
 
 }

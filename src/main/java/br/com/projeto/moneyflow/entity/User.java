@@ -1,6 +1,7 @@
 package br.com.projeto.moneyflow.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,8 +11,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class User {
 
     @Id
@@ -26,4 +26,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")//aponta atributo da classe Expense
     private List<Expense> expenses;
+
+
 }

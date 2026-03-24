@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<Expense> findAllByExpense();
 
-    void delete(User user);
+
 
     void delete(Optional<User> user);
 }
