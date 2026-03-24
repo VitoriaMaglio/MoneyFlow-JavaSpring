@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,10 @@ public class UserService {
     public Optional<User> findById(Long id){
         return userRepository.findById(id);
     }
+    public List<User> find(){
+        return userRepository.findAll();
+    }
+
 
     //service delete
     public Optional<User> delete(Long id){
