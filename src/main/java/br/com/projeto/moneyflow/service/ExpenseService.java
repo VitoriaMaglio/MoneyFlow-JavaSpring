@@ -24,19 +24,20 @@ public class ExpenseService {
     }
 
     //create -> primeiro busca user depois cria e seta o relacionamento; salvar no banco entidade pura
+   // Busca se o usuário existe por conta do relacionamento, depois transforma dto recebdio para entidade
+    //salva no banco e converte para dto o q foi salvo na banco para retorno
     public ExpenseDTO create(ExpenseDTO expenseDto){
         User user = userRepository.findById(expenseDto.userId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Expense expense = new Expense();
-        expense.setName(expenseDto.name());
-        expense.setAmount(expenseDto.amount());
-        expense.setCategory(expenseDto.category());
-        expense.setUser(user);
-
+        Expense expense = ExpenseMapper.toEntity(expenseDto, user);
         Expense saved = expenseRepository.save(expense);
-
         return ExpenseMapper.toDTO(saved);
+//        expense.setName(expenseDto.name());
+//        expense.setAmount(expenseDto.amount());
+//        expense.setCategory(expenseDto.category());
+//        expense.setUser(user);         -> USAR MAPPER
+
 
     }
 
