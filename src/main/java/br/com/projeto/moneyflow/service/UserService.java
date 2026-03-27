@@ -1,7 +1,9 @@
 package br.com.projeto.moneyflow.service;
 
+import br.com.projeto.moneyflow.dto.UserDTO;
 import br.com.projeto.moneyflow.entity.User;
 import br.com.projeto.moneyflow.repository.UserRepository;
+import br.com.projeto.moneyflow.service.mapper.UserMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,14 +15,19 @@ import java.util.Optional;
 public class UserService {
     //final indica que não muda depois de inicializar
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
+    private final UserDTO userDto;
+    public UserService(UserRepository userRepository, UserDTO userDto) {
         this.userRepository = userRepository;
+        this.userDto = userDto;
     }
 
     //service create
-    public User create(User user){
-        return userRepository.save(user);
+    //converte dto para entidade, salva no bancp, retona dto ent converte entidade para dto
+    public UserDTO create(UserDTO userDto){
+
+        User user = UserMapper.toEntity(userDto);
+        User saved = userRepository.save(user);
+        return UserMapper.toDTO(saved);
     }
 
     //service find ---> só compila com Optional pois como é uma busca e tem uma resposta pode achar ou não

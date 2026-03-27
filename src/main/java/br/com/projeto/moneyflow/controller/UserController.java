@@ -1,5 +1,6 @@
 package br.com.projeto.moneyflow.controller;
 
+import br.com.projeto.moneyflow.dto.UserDTO;
 import br.com.projeto.moneyflow.entity.User;
 import br.com.projeto.moneyflow.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,8 +31,8 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> postUser(@RequestBody User user){
-        var users = userService.create(user);
+    public ResponseEntity<User> postUser(@RequestBody UserDTO userDto){
+        var users = userService.create(userDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(users);

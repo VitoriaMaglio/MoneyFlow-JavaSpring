@@ -1,32 +1,75 @@
 package br.com.projeto.moneyflow.service;
 
+import br.com.projeto.moneyflow.dto.ExpenseDTO;
 import br.com.projeto.moneyflow.entity.Expense;
+import br.com.projeto.moneyflow.entity.User;
 import br.com.projeto.moneyflow.repository.ExpenseRepository;
+import br.com.projeto.moneyflow.repository.UserRepository;
+import br.com.projeto.moneyflow.service.mapper.ExpenseMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
-
-    public ExpenseService(ExpenseRepository expenseRepository) {
+    private final UserRepository userRepository;
+    //!!!!!!!!!!!!!!!!//private final ExpenseMapper expenseMapper;
+    public ExpenseService(ExpenseRepository expenseRepository, UserRepository userRepository, ExpenseMapper expenseMapper) {
         this.expenseRepository = expenseRepository;
+        this.userRepository = userRepository;
+        //this.expenseMapper = expenseMapper;
     }
 
-    //create
-    public Expense create(Expense expense){
-        return expenseRepository.save(expense);
+    //create -> primeiro busca user depois cria e seta o relacionamento; salvar no banco entidade pura
+    public ExpenseDTO create(ExpenseDTO expenseDto){
+        User user = userRepository.findById(expenseDto.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Expense expense = new Expense();
+        expense.setName(expenseDto.name());
+        expense.setAmount(expenseDto.amount());
+        expense.setCategory(expenseDto.category());
+        expense.setUser(user);
+
+        Expense saved = expenseRepository.save(expense);
+
+        return ExpenseMapper.toDTO(saved);
+
     }
 
-    //find -> Toda busca no banco tem que ser um Optional pois tem um retorno e esse retorno pode ser diferente do obj que vc busca
-    //updated
-    public Expense updated(Long id, Expense newExpense){
-        Expense expense = findById(id).orElseThrow();
-        return expenseRepository.save(newExpense);
+    //find
+    public List<ExpenseDTO> findAll() {
+        return expenseRepository.findAll()
+                .stream()
+                .map(ExpenseMapper::toDTO)
+                .toList();
     }
 
+
+
+
+    //updated -> busca despesa e usuário, se achar, atualiza
+    public ExpenseDTO updated(Long id, ExpenseDTO dto){
+        Expense expense = expenseRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Expense not found"));
+
+        User user = userRepository.findById(dto.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        expense.setName(dto.name());
+        expense.setAmount(dto.amount());
+        expense.setCategory(dto.category());
+        expense.setUser(user);
+
+        Expense updated = expenseRepository.save(expense);
+
+        return ExpenseMapper.toDTO(updated);
+    }
+
+    //Optional é usado quando a busca pode retornar um único valor ou vazio
     public Optional<Expense> findById(Long id){
         return expenseRepository.findById(id);
     }
