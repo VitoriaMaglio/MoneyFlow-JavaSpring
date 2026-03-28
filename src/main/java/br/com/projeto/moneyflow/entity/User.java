@@ -2,9 +2,7 @@ package br.com.projeto.moneyflow.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class User {
 
     private String cpf;
 
-    @OneToMany(mappedBy = "user")//aponta atributo da classe Expense
+    @OneToMany(mappedBy = "user")
     private List<Expense> expenses;
 
 

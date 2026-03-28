@@ -2,19 +2,21 @@ package br.com.projeto.moneyflow.controller;
 
 import br.com.projeto.moneyflow.dto.UserDTO;
 import br.com.projeto.moneyflow.entity.User;
+import br.com.projeto.moneyflow.service.ExpenseService;
 import br.com.projeto.moneyflow.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
-
+    private ExpenseService expenseService;
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -25,13 +27,16 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUsersById(@PathVariable Long id){
-        return userService.findById(id).map(u-> ResponseEntity.ok(u))
+    public ResponseEntity<UserDTO> getUsersById(@PathVariable Long id){
+        Optional<UserDTO> userDTO = userService.findById(id);
+        return userDTO
+                .map(u -> ResponseEntity.ok(u))
                 .orElse(ResponseEntity.notFound().build());
+
     }
 
     @PostMapping
-    public ResponseEntity<User> postUser(@RequestBody UserDTO userDto){
+    public ResponseEntity<UserDTO> postUser(@RequestBody UserDTO userDto){
         var users = userService.create(userDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -39,8 +44,8 @@ public class UserController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updatedUser(@PathVariable Long id,@RequestBody User newUser){
-        User user = userService.update(id, newUser);
+    public ResponseEntity<UserDTO> updatedUser(@PathVariable Long id,@RequestBody UserDTO newUser){
+        UserDTO user = userService.update(id, newUser);
         return ResponseEntity.ok(user);
     }
 
@@ -50,7 +55,9 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
-
+    @GetMapping("{id}/total")
+    public ResponseEntity<Double> getTotal(@PathVariable Long id){
+        return ResponseEntity.ok(expenseService.getTotalByUser(id));
+    }
 
 }

@@ -15,10 +15,10 @@ import java.util.Optional;
 public class UserService {
     //final indica que não muda depois de inicializar
     private final UserRepository userRepository;
-    private final UserDTO userDto;
-    public UserService(UserRepository userRepository, UserDTO userDto) {
+    //private final UserDTO userDto;
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.userDto = userDto;
+
     }
 
     //service create
@@ -33,8 +33,9 @@ public class UserService {
     //service find ---> só compila com Optional pois como é uma busca e tem uma resposta pode achar ou não
     //ai é Opcional um retorno do tipo User
     //orElseThrow
-    public Optional<User> findById(Long id){
-        return userRepository.findById(id);
+    public Optional<UserDTO> findById(Long id){
+        return userRepository.findById(id)
+                .map(UserMapper::toDTO);
     }
     public List<User> find(){
         return userRepository.findAll();
@@ -43,14 +44,14 @@ public class UserService {
 
     //service delete
     public Optional<User> delete(Long id){
-        Optional<User> user = findById(id);
-        userRepository.delete(user);
-
+        Optional<User> user = userRepository.findById(id);
+        user.ifPresent(userRepository::delete);
         return user;
+
     }
 
     //service update
-    public User update(Long id, User newUser){
+    public UserDTO update(Long id, UserDTO newUser){
 //        var optionalUser = findById(id);
 //        if(optionalUser.isEmpty()){
 //            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
@@ -58,13 +59,24 @@ public class UserService {
 //        newUser.setId(id);
 //        return userRepository.save(newUser);
 
-        User user = findById(id).orElseThrow();
 
-        user.setName(newUser.getName());
-        user.setCpf(newUser.getCpf());
-        return userRepository.save(user);
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "User not found"
+                ));
+
+        // atualiza os campos usando DTO
+        user.setName(newUser.name());
+        user.setCpf(newUser.cpf());
+        user.setAge(newUser.age());
+
+        User updated = userRepository.save(user);
+        //transforma
+        return UserMapper.toDTO(updated);
 
     }
+
+
 
 
 

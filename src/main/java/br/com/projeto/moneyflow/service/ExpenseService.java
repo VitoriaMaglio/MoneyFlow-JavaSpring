@@ -3,6 +3,7 @@ package br.com.projeto.moneyflow.service;
 import br.com.projeto.moneyflow.dto.ExpenseDTO;
 import br.com.projeto.moneyflow.entity.Expense;
 import br.com.projeto.moneyflow.entity.User;
+import br.com.projeto.moneyflow.enums.Category;
 import br.com.projeto.moneyflow.repository.ExpenseRepository;
 import br.com.projeto.moneyflow.repository.UserRepository;
 import br.com.projeto.moneyflow.service.mapper.ExpenseMapper;
@@ -16,6 +17,7 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
+
     //!!!!!!!!!!!!!!!!//private final ExpenseMapper expenseMapper;
     public ExpenseService(ExpenseRepository expenseRepository, UserRepository userRepository, ExpenseMapper expenseMapper) {
         this.expenseRepository = expenseRepository;
@@ -24,9 +26,9 @@ public class ExpenseService {
     }
 
     //create -> primeiro busca user depois cria e seta o relacionamento; salvar no banco entidade pura
-   // Busca se o usuário existe por conta do relacionamento, depois transforma dto recebdio para entidade
+    // Busca se o usuário existe por conta do relacionamento, depois transforma dto recebdio para entidade
     //salva no banco e converte para dto o q foi salvo na banco para retorno
-    public ExpenseDTO create(ExpenseDTO expenseDto){
+    public ExpenseDTO create(ExpenseDTO expenseDto) {
         User user = userRepository.findById(expenseDto.userId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -50,10 +52,8 @@ public class ExpenseService {
     }
 
 
-
-
     //updated -> busca despesa e usuário, se achar, atualiza
-    public ExpenseDTO updated(Long id, ExpenseDTO dto){
+    public ExpenseDTO updated(Long id, ExpenseDTO dto) {
         Expense expense = expenseRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Expense not found"));
 
@@ -71,16 +71,39 @@ public class ExpenseService {
     }
 
     //Optional é usado quando a busca pode retornar um único valor ou vazio
-    public Optional<Expense> findById(Long id){
-        return expenseRepository.findById(id);
+    public Optional<ExpenseDTO> findById(Long id) {
+
+        return expenseRepository.findById(id)
+                .map(ExpenseMapper::toDTO);
     }
 
     //delete ->....SOFT DELETE FAZER
-    public Expense delete(Long id){
-        Expense expense = findById(id).orElseThrow();
-        expenseRepository.delete(expense);
+    public Optional<Expense> delete(Long id) {
+        Optional<Expense> expense = expenseRepository.findById(id);
+        expense.ifPresent(expenseRepository::delete);
+
         return expense;
         //->DELETE, retorna o objeto do banco não é padrão REST, porque o recurso já foi removido;
-    }
-}
 
+        /*
+        Optional<User> user = userRepository.findById(id);
+        user.ifPresent(userRepository::delete);
+        return user;
+         */
+    }
+
+    public List<ExpenseDTO> findByCategory(Category category) {
+        return expenseRepository.findAllByCategory(category)
+                .stream()
+                .map(ExpenseMapper::toDTO)
+                .toList();
+    }
+
+    public double getTotalByUser(Long id) {
+        return expenseRepository.findAllByUserId(id)
+                .stream()
+                .mapToDouble(Expense::getAmount)
+                .sum();
+    }
+
+}
