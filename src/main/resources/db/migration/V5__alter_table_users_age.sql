@@ -1,0 +1,2 @@
+ALTER TABLE users
+ALTER COLUMN age TYPE INTEGER USING age::integer;

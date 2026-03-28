@@ -16,13 +16,13 @@ import java.util.Optional;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
-    private final UserRepository userRepository;
+    private  final UserRepository userRepository;
 
-    //!!!!!!!!!!!!!!!!//private final ExpenseMapper expenseMapper;
-    public ExpenseService(ExpenseRepository expenseRepository, UserRepository userRepository, ExpenseMapper expenseMapper) {
+
+    public ExpenseService(ExpenseRepository expenseRepository, UserRepository userRepository) {
         this.expenseRepository = expenseRepository;
+
         this.userRepository = userRepository;
-        //this.expenseMapper = expenseMapper;
     }
 
     //create -> primeiro busca user depois cria e seta o relacionamento; salvar no banco entidade pura

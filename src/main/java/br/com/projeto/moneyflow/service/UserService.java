@@ -24,7 +24,6 @@ public class UserService {
     //service create
     //converte dto para entidade, salva no bancp, retona dto ent converte entidade para dto
     public UserDTO create(UserDTO userDto){
-
         User user = UserMapper.toEntity(userDto);
         User saved = userRepository.save(user);
         return UserMapper.toDTO(saved);

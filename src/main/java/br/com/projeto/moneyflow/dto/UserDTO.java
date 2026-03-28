@@ -2,6 +2,6 @@ package br.com.projeto.moneyflow.dto;
 
 public record UserDTO(Long id,
                       String name,
-                      String age,
+                      Integer age,
                       String cpf) {
 }

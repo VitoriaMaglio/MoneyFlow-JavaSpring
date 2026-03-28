@@ -16,9 +16,10 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private ExpenseService expenseService;
-    public UserController(UserService userService) {
+    private final ExpenseService expenseService;
+    public UserController(UserService userService, ExpenseService expenseService) {
         this.userService = userService;
+        this.expenseService = expenseService;
     }
 
     @GetMapping

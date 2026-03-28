@@ -1,5 +1,6 @@
 package br.com.projeto.moneyflow.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,12 @@ public class User {
 
     private String name;
 
-    private String age;
+    private int age;
 
     private String cpf;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore //tira o loop do relacionamento
     private List<Expense> expenses;
 
 
