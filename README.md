@@ -78,7 +78,7 @@ http://localhost:8080/expenses/1
   "name": "Almoço na faculdade",
   "amount": 45.50,
   "category": "FOOD",
-  "userId": ---,
+  "userId": 1,
   "userName": "Vitória Valentina"
 }
 
