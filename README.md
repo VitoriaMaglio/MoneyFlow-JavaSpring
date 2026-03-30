@@ -1,4 +1,4 @@
-💰 Money Flow API
+**💰 Money Flow API
 
 API REST desenvolvida com Spring Boot para gerenciamento de finanças pessoais, permitindo o controle de usuários e suas despesas.
 
@@ -22,6 +22,7 @@ API REST desenvolvida com Spring Boot para gerenciamento de finanças pessoais, 
 Endpoints e json para teste:
 
 -POSTs
+
 http://localhost:8080/users
 {
   "name": "Vitória",
