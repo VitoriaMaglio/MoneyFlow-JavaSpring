@@ -39,7 +39,9 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 **Endpoints e json para teste:**
 
 -POSTs
+
 /users
+
 {
   "name": "Vitória",
   "age": 22,
@@ -47,6 +49,7 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 }
 
 /expenses
+
 {
   "name": "Almoço",
   "amount": 45.50,
@@ -70,6 +73,7 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 -PUTs
 
 /users/1
+
 {
   "name": "Vitória Valentina",
   "age": 22,
@@ -77,6 +81,7 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 }
 
 /expenses/1
+
 {
   "name": "Almoço na faculdade",
   "amount": 45.50,
