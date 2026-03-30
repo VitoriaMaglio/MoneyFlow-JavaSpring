@@ -40,7 +40,7 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 
 -POSTs
 
-http://localhost:8080/users
+ POST http://localhost:8080/users
 {
   "name": "Vitória",
   "age": 22,
