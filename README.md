@@ -1,7 +1,7 @@
 # 💰  Money Flow API
 
 
- API REST desenvolvida com Spring Boot para gerenciamento de finanças pessoais, permitindo o controle de usuários e suas despesas.
+Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de finanças pessoais, permitindo o controle de usuários e suas despesas.
 
 ---
  📌 **Funcionalidades**
