@@ -38,8 +38,7 @@ public class ExpenseService {
 //        expense.setName(expenseDto.name());
 //        expense.setAmount(expenseDto.amount());
 //        expense.setCategory(expenseDto.category());
-//        expense.setUser(user);         -> USAR MAPPER
-
+//        expense.setUser(user);     --> refatoração com Mapper
 
     }
 
@@ -77,19 +76,12 @@ public class ExpenseService {
                 .map(ExpenseMapper::toDTO);
     }
 
-    //delete ->....SOFT DELETE FAZER
+    //delete
     public Optional<Expense> delete(Long id) {
         Optional<Expense> expense = expenseRepository.findById(id);
         expense.ifPresent(expenseRepository::delete);
 
         return expense;
-        //->DELETE, retorna o objeto do banco não é padrão REST, porque o recurso já foi removido;
-
-        /*
-        Optional<User> user = userRepository.findById(id);
-        user.ifPresent(userRepository::delete);
-        return user;
-         */
     }
 
     public List<ExpenseDTO> findByCategory(Category category) {

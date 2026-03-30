@@ -15,30 +15,26 @@ import java.util.Optional;
 public class UserService {
     //final indica que não muda depois de inicializar
     private final UserRepository userRepository;
-    //private final UserDTO userDto;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-
     }
 
     //service create
-    //converte dto para entidade, salva no bancp, retona dto ent converte entidade para dto
+    //converte dto para entidade, salva no banco, retona dto ent converte entidade para dto
     public UserDTO create(UserDTO userDto){
         User user = UserMapper.toEntity(userDto);
         User saved = userRepository.save(user);
         return UserMapper.toDTO(saved);
     }
 
-    //service find ---> só compila com Optional pois como é uma busca e tem uma resposta pode achar ou não
-    //ai é Opcional um retorno do tipo User
-    //orElseThrow
+    //service find ---> compila com Optional pois como é uma busca e tem uma resposta pode achar ou não ent é Opcional um retorno do tipo User
+
     public Optional<UserDTO> findById(Long id){
         return userRepository.findById(id)
                 .map(UserMapper::toDTO);
     }
     public List<User> find(){
-        return userRepository.findAll();
-    }
+        return userRepository.findAll();}
 
 
     //service delete
@@ -58,25 +54,16 @@ public class UserService {
 //        newUser.setId(id);
 //        return userRepository.save(newUser);
 
-
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "User not found"
                 ));
 
-        // atualiza os campos usando DTO
         user.setName(newUser.name());
         user.setCpf(newUser.cpf());
         user.setAge(newUser.age());
-
         User updated = userRepository.save(user);
-        //transforma
         return UserMapper.toDTO(updated);
 
     }
-
-
-
-
-
 }

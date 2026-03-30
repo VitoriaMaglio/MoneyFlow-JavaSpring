@@ -35,6 +35,10 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
 
     }
+    @GetMapping("{id}/total")
+    public ResponseEntity<Double> getTotal(@PathVariable Long id){
+        return ResponseEntity.ok(expenseService.getTotalByUser(id));
+    }
 
     @PostMapping
     public ResponseEntity<UserDTO> postUser(@RequestBody UserDTO userDto){
@@ -56,9 +60,6 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("{id}/total")
-    public ResponseEntity<Double> getTotal(@PathVariable Long id){
-        return ResponseEntity.ok(expenseService.getTotalByUser(id));
-    }
+
 
 }

@@ -42,6 +42,10 @@ public class ExpenseController {
                 .map( e -> ResponseEntity.ok(e))
                 .orElse(ResponseEntity.notFound().build());
     }
+    @GetMapping("/category")
+    public ResponseEntity<List<ExpenseDTO>> getByCategory(@RequestParam Category category){
+        return ResponseEntity.ok(expenseService.findByCategory(category));
+    }
 
     //requisição updated ->
     @PutMapping("{id}")
@@ -57,8 +61,5 @@ public class ExpenseController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<List<ExpenseDTO>> getByCategory(@RequestParam Category category){
-        return ResponseEntity.ok(expenseService.findByCategory(category));
-    }
+
 }
