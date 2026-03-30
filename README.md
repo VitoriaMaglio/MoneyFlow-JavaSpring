@@ -7,9 +7,13 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
  📌 **Funcionalidades**
 
  CRUD completo de usuários
+ 
  CRUD completo de despesas (expenses)
+ 
  Relacionamento entre usuário e despesas
+ 
  Cálculo do total de despesas por usuário
+ 
  Persistência com banco de dados relacional
 
 ---
