@@ -1,4 +1,4 @@
-**💰 Money Flow API
+#💰 Money Flow API
 
 API REST desenvolvida com Spring Boot para gerenciamento de finanças pessoais, permitindo o controle de usuários e suas despesas.
 
@@ -78,8 +78,11 @@ http://localhost:8080/users/1
 
 
 ⚠️ Observações importantes
+
 O ID dos registros é gerado automaticamente pelo banco de dados
+
 Não é recomendado assumir valores fixos de ID (como 1)
+
 Sempre utilize o ID retornado pela API após a criação
 
 
