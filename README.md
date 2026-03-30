@@ -115,4 +115,4 @@ Vitória Valentina Maglio
 
 Marina Tamagnini Magalhães
 
-João Pedro 
+João Pedro Bitencourt
