@@ -39,15 +39,14 @@ Projeto Diamante : API REST desenvolvida com Spring Boot para gerenciamento de f
 **Endpoints e json para teste:**
 
 -POSTs
-
- POST http://localhost:8080/users
+/users
 {
   "name": "Vitória",
   "age": 22,
   "cpf": "12345678900"
 }
 
-http://localhost:8080/expenses
+/expenses
 {
   "name": "Almoço",
   "amount": 45.50,
@@ -58,26 +57,26 @@ http://localhost:8080/expenses
 
 -GETs
 
-http://localhost:8080/expenses
+/expenses
 
-http://localhost:8080/expenses/1
+/expenses/1
 
-http://localhost:8080/users
+/users
 
-http://localhost:8080/users/1
+/users/1
 
-http://localhost:8080/users/1/total  --> retorna valor total gasto do user
+/users/1/total  --> retorna valor total gasto do user
 
 -PUTs
 
-http://localhost:8080/users/1
+/users/1
 {
   "name": "Vitória Valentina",
   "age": 22,
   "cpf": "12345678900"
 }
 
-http://localhost:8080/expenses/1
+/expenses/1
 {
   "name": "Almoço na faculdade",
   "amount": 45.50,
@@ -89,9 +88,9 @@ http://localhost:8080/expenses/1
 
 -DELETEs
 
-http://localhost:8080/expenses/1 
+/expenses/1 
 
-http://localhost:8080/users/1 
+/users/1 
 
 ---
 
